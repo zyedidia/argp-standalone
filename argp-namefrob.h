@@ -152,10 +152,3 @@ __argp_basename(char* name);
 #ifndef __set_errno
 #define __set_errno(e) (errno = (e))
 #endif
-
-#if 0 || HAVE_DECL_PROGRAM_INVOCATION_SHORT_NAME
-#define __argp_short_program_name() (program_invocation_short_name)
-#else
-extern char*
-__argp_short_program_name(void);
-#endif

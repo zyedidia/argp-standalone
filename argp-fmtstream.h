@@ -27,7 +27,9 @@
 
 #include <stdio.h>
 #include <string.h>
+#if defined(HAVE_UNISTD_H)
 #include <unistd.h>
+#endif
 
 #ifndef PRINTF_STYLE
 #if __GNUC__ >= 2
@@ -35,6 +37,10 @@
 #else
 #define PRINTF_STYLE(f, a)
 #endif
+#endif
+
+#ifdef _WIN32
+typedef ptrdiff_t ssize_t;
 #endif
 
 #if 0
