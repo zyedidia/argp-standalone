@@ -17,6 +17,11 @@ conf_data = configuration_data()
 
 cc = meson.get_compiler('c')
 
+if host_machine.system() != 'windows' 
+	soversion = '0'
+	libversion = '0.0.0'
+endif
+
 conf_data.set10('HAVE_CONFIG_H', true)
 conf_data.set10('HAVE_ALLOCA_H', cc.check_header('alloca.h'))
 
@@ -68,12 +73,23 @@ if conf_data.get('HAVE_MEMPCPY') == 0
 	argp_source += files(['mempcpy.c'])
 endif
 
-argp_library = static_library('argp',
-	argp_source,
-	include_directories : '.',
-	dependencies : deps,
-	install : true
+if host_machine.system() != 'windows'
+	argp_library = library('argp',
+		argp_source,
+		include_directories : '.',
+		soversion: soversion,
+		version: libversion,
+		dependencies : deps,
+		install : true
+	)
+else	
+	argp_library = static_library('argp',
+		argp_source,
+		include_directories : '.',
+		dependencies : deps,
+		install : true
 )
+endif
 
 argp_dep = declare_dependency(link_with : argp_library,
 	include_directories : '.')
