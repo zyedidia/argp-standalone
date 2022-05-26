@@ -17,7 +17,7 @@ conf_data = configuration_data()
 
 cc = meson.get_compiler('c')
 
-if host_machine.system() != 'windows' 
+if host_machine.system() != 'windows'
 	soversion = '0'
 	libversion = '0.0.0'
 endif
@@ -82,7 +82,7 @@ if host_machine.system() != 'windows'
 		dependencies : deps,
 		install : true
 	)
-else	
+else
 	argp_library = static_library('argp',
 		argp_source,
 		include_directories : '.',
@@ -97,6 +97,8 @@ argp_dep = declare_dependency(link_with : argp_library,
 if meson.version().version_compare('>= 0.54.0')
 	meson.override_dependency('argp-standalone', argp_dep)
 endif
+
+import('pkgconfig').generate(argp_library, filebase : 'libargp')
 
 e = executable('ex1', 'testsuite/ex1.c', link_with : [argp_library])
 test('ex1', e)
