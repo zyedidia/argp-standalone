@@ -6,38 +6,6 @@ on:
     branches: [master]
 
 jobs:
-  build_autoconf:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-
-    name: Compile and Run Tests
-    steps:
-      - uses: actions/checkout@v2
-      - name: install mamba
-        uses: mamba-org/provision-with-micromamba@main
-        with:
-          environment-file: .github/autoconf_build_env.yml
-      - name: Configure argp
-        shell: bash -l {0}
-        run: |
-          aclocal
-          autoheader
-          autoconf
-          automake --add-missing
-          autoreconf
-          ./configure
-      - name: Build argp
-        shell: bash -l {0}
-        run: |
-          make
-      - name: Run argp tests
-        shell: bash -l {0}
-        run: |
-          cd testsuite
-          ./run-tests
   build_meson:
     runs-on: ${{ matrix.os }}
     strategy:
@@ -56,19 +24,12 @@ jobs:
         shell: bash -l {0}
         if: runner.os != 'Windows'
         run: |
-          meson builddir
-          cd builddir
-          ninja
-      # - name: Run argp tests
-      #   shell: bash -l {0}
-      #   if: runner.os != 'Windows'
-      #   run: |
-      #     cd builddir
-      #     ninja test
+          meson setup build
+          meson test -C build
       - name: Compile argp
         shell: cmd /C CALL {0}
         if: runner.os == 'Windows'
         run: |
           CALL micromamba activate meson_build_env
-          meson setup builddir
-          meson compile -C builddir
+          meson setup build
+          meson test -C build
