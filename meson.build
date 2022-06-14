@@ -25,7 +25,6 @@ endif
 conf_data.set10('HAVE_CONFIG_H', true)
 conf_data.set10('HAVE_ALLOCA_H', cc.check_header('alloca.h'))
 
-conf_data.set('HAVE_MALLOC_H', cc.check_header('malloc.h'))
 conf_data.set('HAVE_UNISTD_H', cc.check_header('unistd.h'))
 conf_data.set('HAVE_LIBINTL_H', cc.check_header('libintl.h'))
 
