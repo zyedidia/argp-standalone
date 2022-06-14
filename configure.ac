@@ -38,7 +38,6 @@ LSH_GCC_ATTRIBUTES
 # Checks for library functions.
 AC_FUNC_ALLOCA
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS(strerror)
 
 AC_REPLACE_FUNCS(mempcpy strndup strchrnul)
 
@@ -72,7 +71,7 @@ AC_CHECK_DECL(flockfile)
 AC_CHECK_DECLS([fputs_unlocked, fwrite_unlocked])
 
 # Used only by argp-test.c, so don't use AC_REPLACE_FUNCS.
-AC_CHECK_FUNCS(strdup asprintf)
+AC_CHECK_FUNCS(asprintf)
 
 AC_CHECK_DECLS([program_invocation_name, program_invocation_short_name],
                [], [], [[#include <errno.h>]])
