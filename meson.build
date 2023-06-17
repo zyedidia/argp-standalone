@@ -88,7 +88,13 @@ if meson.version().version_compare('>= 0.54.0')
 	meson.override_dependency('argp-standalone', argp_dep)
 endif
 
-import('pkgconfig').generate(argp_library, filebase : 'libargp')
+pkg = import('pkgconfig')
+pkg.generate(argp_library,
+	version : meson.project_version(),
+	name : 'libargp',
+	filebase : 'libargp',
+	description : 'Hierarchial argument parsing library broken out from glibc'
+)
 
 e = executable('ex1', 'testsuite/ex1.c', link_with : [argp_library])
 test('ex1', e)
