@@ -1,6 +1,7 @@
 project('argp-standalone', 'c',
 	version : '1.5.0',
 	license : 'LGPL-2.1-or-later',
+	default_options : ['c_std=gnu99'],
 )
 
 argp_source = files([
