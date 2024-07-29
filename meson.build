@@ -21,11 +21,6 @@ conf_data = configuration_data()
 
 cc = meson.get_compiler('c')
 
-if host_machine.system() != 'windows'
-	soversion = '0'
-	libversion = '0.0.0'
-endif
-
 conf_data.set10('HAVE_CONFIG_H', true)
 
 conf_data.set10('HAVE_ALLOCA_H', cc.check_header('alloca.h'))
@@ -72,8 +67,7 @@ if host_machine.system() != 'windows'
 	argp_library = library('argp',
 		argp_source,
 		include_directories : '.',
-		soversion: soversion,
-		version: libversion,
+		version : meson.project_version(),
 		install : true
 	)
 else
