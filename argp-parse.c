@@ -30,6 +30,7 @@
 #ifndef __GNUC__
 #if HAVE_ALLOCA_H
 #include <alloca.h>
+#define alloca(x) __builtin_alloca(x)
 #else
 #ifdef _AIX
 #pragma alloca
@@ -91,7 +92,7 @@ alloca();
    for one second intervals, decrementing _ARGP_HANG until it's zero.  Thus
    you can force the program to continue by attaching a debugger and setting
    it to 0 yourself.  */
-volatile int _argp_hang;
+int _argp_hang;
 
 #define OPT_PROGNAME -2
 #define OPT_USAGE -3

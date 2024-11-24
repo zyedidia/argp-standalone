@@ -29,6 +29,7 @@
 #ifndef __GNUC__
 #if HAVE_ALLOCA_H || 0
 #include <alloca.h>
+#define alloca(x) __builtin_alloca(x)
 #elif defined(_WIN32)
 #define alloca _alloca
 #elif defined(_AIX)
@@ -83,7 +84,7 @@ strchrnul(const char* s, int c);
 static char*
 dgettext_safe(const char* d, const char* m)
 {
-    return m ? dgettext(d, m) : NULL;
+    return m ? (char*) dgettext(d, m) : NULL;
 }
 
 #include <argp.h>
@@ -1717,7 +1718,6 @@ __argp_short_program_name(const struct argp_state* state)
            but currently the value is passed on directly to fputs_unlocked,
            so that requires more changes. */
 #if __GNUC__
-#warning No reasonable value to return
     return "";
 #endif /* __GNUC__ */
 #endif /* !HAVE_DECL_PROGRAM_INVOCATION_NAME */
@@ -1863,9 +1863,8 @@ weak_alias(__argp_error, argp_error)
 
             if (errnum)
             {
-                char buf[200];
-
 #if 0
+                char buf[200];
 	      __fxprintf (stream, ": %s",
 			  __strerror_r (errnum, buf, sizeof (buf)));
 #else
